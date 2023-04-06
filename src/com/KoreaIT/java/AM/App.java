@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.AM.dto.Article;
+import com.KoreaIT.java.AM.dto.Member;
 import com.KoreaIT.java.AM.util.Util;
 
 public class App {
 	private List<Article> articles;
+	private List<Member> members;
 
 	public App() {
 		articles = new ArrayList<>();
+		members = new ArrayList<>();
 	}
 
 	public void run() {
@@ -21,6 +24,7 @@ public class App {
 		makeTestData();
 
 		int lastArticleId = 3;
+		int lastMemberId = 0;
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -35,7 +39,39 @@ public class App {
 				break;
 			}
 
-			if (cmd.equals("article write")) {
+			if (cmd.equals("member join")) {
+
+				int id = lastMemberId + 1;
+				lastMemberId = id;
+				String regDate = Util.getNowDateStr();
+				System.out.printf("로그인 아이디 : ");
+				String loginId = sc.nextLine();
+				
+				String loginPw = null;
+				
+				while(true) {
+					System.out.printf("로그인 비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.printf("로그인 비밀번호 확인 : ");
+					String loginPwChk = sc.nextLine();
+					
+					if (loginPw.equals(loginPwChk) == false) {
+						System.out.println("비밀번호를 다시 입력해주세요");
+						continue;
+					}
+					break;
+				}
+				
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, regDate, loginId, loginPw, name);
+
+				members.add(member);
+
+				System.out.printf("%s 회원님 환영합니다\n", name);
+
+			} else if (cmd.equals("article write")) {
 
 				int id = lastArticleId + 1;
 				lastArticleId = id;
