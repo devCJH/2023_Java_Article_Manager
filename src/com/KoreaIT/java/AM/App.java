@@ -44,8 +44,21 @@ public class App {
 				int id = lastMemberId + 1;
 				lastMemberId = id;
 				String regDate = Util.getNowDateStr();
-				System.out.printf("로그인 아이디 : ");
-				String loginId = sc.nextLine();
+				
+				String loginId = null;
+				
+				while(true) {
+					System.out.printf("로그인 아이디 : ");
+					loginId = sc.nextLine();
+					
+					if (isLoginIdDup(loginId) == false) {
+						System.out.printf("%s은(는) 이미 사용중인 아이디 입니다\n", loginId);
+						continue;
+					}
+					
+					System.out.printf("%s은(는) 사용가능한 아이디 입니다\n", loginId);
+					break;
+				}
 				
 				String loginPw = null;
 				
@@ -208,5 +221,14 @@ public class App {
 			}
 		}
 		return null;
+	}
+	
+	private boolean isLoginIdDup(String loginId) {
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
