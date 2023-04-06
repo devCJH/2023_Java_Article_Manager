@@ -22,9 +22,10 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 
 		makeTestData();
+		makeTestData2();
 
 		int lastArticleId = 3;
-		int lastMemberId = 0;
+		int lastMemberId = 3;
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -205,11 +206,19 @@ public class App {
 	}
 
 	private void makeTestData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다");
+		System.out.println("테스트를 위한 게시글 데이터를 생성합니다");
 
 		articles.add(new Article(1, Util.getNowDateStr(), "test1", "test1", 10));
 		articles.add(new Article(2, Util.getNowDateStr(), "test2", "test2", 15));
 		articles.add(new Article(3, Util.getNowDateStr(), "test3", "test3", 28));
+	}
+	
+	private void makeTestData2() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
+		
+		members.add(new Member(1, Util.getNowDateStr(), "test1", "test1", "test1"));
+		members.add(new Member(2, Util.getNowDateStr(), "test2", "test2", "test2"));
+		members.add(new Member(3, Util.getNowDateStr(), "test3", "test3", "test3"));
 	}
 	
 	private Article getArticleById(int id) {
