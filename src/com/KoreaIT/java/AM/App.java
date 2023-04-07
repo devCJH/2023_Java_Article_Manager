@@ -207,13 +207,23 @@ public class App {
 
 			} else if (cmd.startsWith("article modify ")) {
 
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
 
 				Article foundArticle = getArticleById(id);
-
+				
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시글은 존재하지 않습니다\n", id);
+					continue;
+				}
+				
+				if (isAuthority(foundArticle.memberId) == false) {
+					System.out.println("권한이 없습니다");
 					continue;
 				}
 
@@ -229,6 +239,11 @@ public class App {
 
 			} else if (cmd.startsWith("article delete ")) {
 
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
 
@@ -236,6 +251,11 @@ public class App {
 				
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시글은 존재하지 않습니다\n", id);
+					continue;
+				}
+				
+				if (isAuthority(foundArticle.memberId) == false) {
+					System.out.println("권한이 없습니다");
 					continue;
 				}
 
@@ -301,5 +321,9 @@ public class App {
 	
 	private boolean isLogined() {
 		return this.loginedMember != null;
+	}
+	
+	private boolean isAuthority(int memberId) {
+		return memberId == this.loginedMember.id;
 	}
 }
