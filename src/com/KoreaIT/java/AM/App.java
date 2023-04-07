@@ -11,10 +11,12 @@ import com.KoreaIT.java.AM.util.Util;
 public class App {
 	private List<Article> articles;
 	private List<Member> members;
+	private Member loginedMember;
 
 	public App() {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
+		this.articles = new ArrayList<>();
+		this.members = new ArrayList<>();
+		this.loginedMember = null;
 	}
 
 	public void run() {
@@ -84,6 +86,28 @@ public class App {
 				members.add(member);
 
 				System.out.printf("%s 회원님 환영합니다\n", name);
+
+			} else if (cmd.equals("member login")) {
+
+				System.out.printf("로그인 아이디 : ");
+				String loginId = sc.nextLine();
+				System.out.printf("로그인 비밀번호 : ");
+				String loginPw = sc.nextLine();
+				
+				Member member = getMemberByLoginId(loginId);
+				
+				if (member == null) {
+					System.out.printf("%s은(는) 존재하지 않는 아이디입니다\n", loginId);
+					continue;
+				}
+				
+				if (loginPw.equals(member.loginPw) == false) {
+					System.out.println("비밀번호를 확인해주세요");
+					continue;
+				}
+				
+				this.loginedMember = member;
+				System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 
 			} else if (cmd.equals("article write")) {
 
@@ -227,6 +251,15 @@ public class App {
 
 			if (article.id == id) {
 				return article;
+			}
+		}
+		return null;
+	}
+	
+	private Member getMemberByLoginId(String loginId) {
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return member;
 			}
 		}
 		return null;
