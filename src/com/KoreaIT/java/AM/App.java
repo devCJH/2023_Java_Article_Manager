@@ -43,7 +43,12 @@ public class App {
 			}
 
 			if (cmd.equals("member join")) {
-
+				
+				if (isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+				
 				int id = lastMemberId + 1;
 				lastMemberId = id;
 				String regDate = Util.getNowDateStr();
@@ -89,6 +94,11 @@ public class App {
 
 			} else if (cmd.equals("member login")) {
 
+				if (isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+				
 				System.out.printf("로그인 아이디 : ");
 				String loginId = sc.nextLine();
 				System.out.printf("로그인 비밀번호 : ");
@@ -109,6 +119,16 @@ public class App {
 				this.loginedMember = member;
 				System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 
+			} else if (cmd.equals("member logout")) {
+				
+				if (isLogined() == false) {
+					System.out.println("로그인 상태가 아닙니다");
+					continue;
+				}
+				
+				this.loginedMember = null;
+				System.out.println("로그아웃 되었습니다");
+				
 			} else if (cmd.equals("article write")) {
 
 				int id = lastArticleId + 1;
@@ -272,5 +292,9 @@ public class App {
 			}
 		}
 		return true;
+	}
+	
+	private boolean isLogined() {
+		return this.loginedMember != null;
 	}
 }
