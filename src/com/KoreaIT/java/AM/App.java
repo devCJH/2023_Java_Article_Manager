@@ -26,9 +26,6 @@ public class App {
 		makeTestData();
 		makeTestData2();
 
-		int lastArticleId = 3;
-		int lastMemberId = 3;
-
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine().trim();
@@ -49,8 +46,7 @@ public class App {
 					continue;
 				}
 				
-				int id = lastMemberId + 1;
-				lastMemberId = id;
+				int id = LastPId.getMemberLastId();
 				String regDate = Util.getNowDateStr();
 				
 				String loginId = null;
@@ -99,10 +95,29 @@ public class App {
 					continue;
 				}
 				
-				System.out.printf("로그인 아이디 : ");
-				String loginId = sc.nextLine();
-				System.out.printf("로그인 비밀번호 : ");
-				String loginPw = sc.nextLine();
+				String loginId = null;
+				String loginPw = null;
+				while(true) {
+					System.out.printf("로그인 아이디 : ");
+					loginId = sc.nextLine().trim();
+					
+					if (loginId.length() == 0) {
+						System.out.println("아이디를 입력해주세요");
+						continue;
+					}
+					
+					while(true) {
+						System.out.printf("로그인 비밀번호 : ");
+						loginPw = sc.nextLine().trim();
+						
+						if (loginPw.length() == 0) {
+							System.out.println("비밀번호를 입력해주세요");
+							continue;
+						}
+						break;
+					}
+					break;
+				}
 				
 				Member member = getMemberByLoginId(loginId);
 				
@@ -173,8 +188,7 @@ public class App {
 					continue;
 				}
 				
-				int id = lastArticleId + 1;
-				lastArticleId = id;
+				int id = LastPId.getArticleLastId();
 				String regDate = Util.getNowDateStr();
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
@@ -319,17 +333,17 @@ public class App {
 	private void makeTestData() {
 		System.out.println("테스트를 위한 게시글 데이터를 생성합니다");
 
-		articles.add(new Article(1, Util.getNowDateStr(), 1, "test1", "test1", 10));
-		articles.add(new Article(2, Util.getNowDateStr(), 2, "test2", "test2", 15));
-		articles.add(new Article(3, Util.getNowDateStr(), 2, "test3", "test3", 28));
+		articles.add(new Article(LastPId.getArticleLastId(), Util.getNowDateStr(), 1, "test1", "test1", 10));
+		articles.add(new Article(LastPId.getArticleLastId(), Util.getNowDateStr(), 2, "test2", "test2", 15));
+		articles.add(new Article(LastPId.getArticleLastId(), Util.getNowDateStr(), 2, "test3", "test3", 28));
 	}
 	
 	private void makeTestData2() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다");
 		
-		members.add(new Member(1, Util.getNowDateStr(), "김철수", "김철수", "김철수"));
-		members.add(new Member(2, Util.getNowDateStr(), "김영희", "김영희", "김영희"));
-		members.add(new Member(3, Util.getNowDateStr(), "홍길동", "홍길동", "홍길동"));
+		members.add(new Member(LastPId.getMemberLastId(), Util.getNowDateStr(), "김철수", "김철수", "김철수"));
+		members.add(new Member(LastPId.getMemberLastId(), Util.getNowDateStr(), "김영희", "김영희", "김영희"));
+		members.add(new Member(LastPId.getMemberLastId(), Util.getNowDateStr(), "홍길동", "홍길동", "홍길동"));
 	}
 	
 	private Article getArticleById(int id) {
