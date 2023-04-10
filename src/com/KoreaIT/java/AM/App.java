@@ -180,7 +180,10 @@ public class App {
 				
 				for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 					Article article = forPrintArticles.get(i);
-					System.out.printf("%d	|	%s	|	%s	|	%d	|	%d	\n", article.id, article.title, article.regDate, article.memberId, article.hit);
+					
+					String writerName = getMemberName(article.memberId);;
+					
+					System.out.printf("%d	|	%s	|	%s	|	%s	|	%d	\n", article.id, article.title, article.regDate, writerName, article.hit);
 				}
 
 			} else if (cmd.startsWith("article detail ")) {
@@ -195,12 +198,14 @@ public class App {
 					continue;
 				}
 
+				String writerName = getMemberName(foundArticle.memberId);
+				
 				foundArticle.increaseHit();
-
+				
 				System.out.println("== 게시글 상세보기 ==");
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("날짜 : %s\n", foundArticle.regDate);
-				System.out.printf("작성자 : %d\n", foundArticle.memberId);
+				System.out.printf("작성자 : %s\n", writerName);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
 				System.out.printf("조회수 : %s\n", foundArticle.hit);
@@ -305,6 +310,16 @@ public class App {
 		for (Member member : members) {
 			if (member.loginId.equals(loginId)) {
 				return member;
+			}
+		}
+		return null;
+	}
+	
+
+	private String getMemberName(int memberId) {
+		for(Member member : members) {
+			if(member.id == memberId) {
+				return member.name;
 			}
 		}
 		return null;
