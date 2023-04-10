@@ -129,6 +129,43 @@ public class App {
 				this.loginedMember = null;
 				System.out.println("로그아웃 되었습니다");
 				
+			} else if (cmd.equals("member profile")) {
+				
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
+				System.out.println("== 회원 정보 ==");
+				System.out.printf("가입날짜 : %s\n", this.loginedMember.regDate);
+				System.out.printf("로그인 아이디 : %s\n", this.loginedMember.loginId);
+				System.out.printf("이름 : %s\n", this.loginedMember.name);
+				
+			} else if (cmd.equals("member modify")) {
+				
+				if (isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+				
+				while(true) {
+					System.out.printf("로그인 비밀번호 : ");
+					String loginPw = sc.nextLine();
+					
+					if (loginPw.equals(this.loginedMember.loginPw) == false) {
+						System.out.println("비밀번호가 일치하지 않습니다");
+						continue;
+					}
+					break;
+				}
+				
+				System.out.printf("수정할 이름 : ");
+				String name = sc.nextLine();
+				
+				this.loginedMember.name = name;
+				
+				System.out.println("회원정보 수정이 완료되었습니다");
+				
 			} else if (cmd.equals("article write")) {
 
 				if (isLogined() == false) {
